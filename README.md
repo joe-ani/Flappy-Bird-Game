@@ -7,7 +7,7 @@
 <hr>
 <h2>Technologies</h2>
 <ul>
-<li>HTML 📄<li>
-<li>CSS 💅<li>
-<li>JAVASCRIPR 👨‍💻<li>
+<li>HTML 📄</li>
+<li>CSS 💅</li>
+<li>JAVASCRIPR 👨‍💻</li>
 </ul>
