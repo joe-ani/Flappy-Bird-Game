@@ -6,6 +6,8 @@
 <P>Flappy Bird is an arcade-style game in which the player controls the bird Faby, which moves persistently to the right.</P>
 <hr>
 <h2>Technologies</h2>
+<ul>
 <li>HTML 📄<li>
 <li>CSS 💅<li>
 <li>JAVASCRIPR 👨‍💻<li>
+</ul>
