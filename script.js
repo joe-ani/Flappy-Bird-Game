@@ -55,6 +55,7 @@ document.addEventListener(
   "keypress",
   (e) => {
     if (e.code === "Space") {
+      gameScore.setAttribute("data-game", true);
       bird.classList.remove("bird-hover");
       window.requestAnimationFrame(updateBird);
     }
@@ -94,10 +95,13 @@ const updateBird = (time) => {
   } else return;
   delta = BIRD_SPEED_SCALE;
   checkCollision();
-  checkScore()
+  checkScore();
+  if (gameStats === false) {
+    setTimeout(gameOver, 300);
+  }
 
   if (getCustomProperty(bird, "--top") > 470) {
-    gameOver();
+    setTimeout(gameOver, 300);
   }
 };
 
@@ -212,8 +216,8 @@ const movePipes = () => {
 
 // Check Lose
 // Detection for bird, ground and pipe collision...
+const BIRD = document.querySelector(".blue-bird");
 const checkCollision = () => {
-  const BIRD = document.querySelector(".blue-bird");
   const rect1 = BIRD.getBoundingClientRect();
   grounds.forEach((ground) => {
     let rect2 = ground.getBoundingClientRect();
@@ -233,12 +237,74 @@ const checkCollision = () => {
       rect3.right > rect1.left &&
       rect3.top < rect1.bottom &&
       rect3.bottom > rect1.top
-      ) {
-        gameStats = false;
-      }
-    });
-  };
-  const gameOver = () => {}; 
-  
+    ) {
+      gameStats = false;
+    }
+  });
+};
+
+const game = document.querySelector(".game-over");
+const overButton = document.querySelector(".game-over-btn");
+const gameOverlay = document.querySelector(".game-overlay");
+const overText = document.querySelector(".game-over-text");
+const gameScore = document.querySelector(".game-score");
+const scoreDetails = document.querySelector(".score-details");
+const highScore = document.querySelector(".high-score");
+const gameOver = () => {
+  overButton.setAttribute("data-active", false);
+  if (gameStats === false) {
+    document.addEventListener("keypress", resetGame);
+    overButton.addEventListener("click", resetGame);
+  }
+  console.log("You Lost");
+  game.setAttribute("data-game", true);
+  scoreDetails.setAttribute("data-game", true);
+  gameOverlay.setAttribute("data-game", true);
+  overText.setAttribute("data-game", true);
+  // Game Over screen
+};
+
 // Check Score
-const checkScore = () => {};
+let maxScore = 0;
+let LIMIT = 0;
+let addScore = true
+const checkScore = () => {
+  // console.log("checking score");
+  // By using the getRect API i'll check if the pipes[pipecontainer] X is less than the Bird X
+  const rect1 = BIRD.getBoundingClientRect();
+  pipes.forEach((pipe) => {
+    const rect2 = pipe.getBoundingClientRect();
+    if (rect2.right > rect1.right) {
+      console.log("+ 1");
+      LIMIT = maxScore++;
+      maxScore -= LIMIT;
+      if (maxScore < LIMIT) {
+        if (addScore) {
+          maxScore++;
+        }
+      }
+      gameScore.innerHTML = `${maxScore}`;
+    } else {
+      console.log("set false");
+      addScore = false;
+    }
+  });
+};
+
+const resetGame = (e) => {
+  console.log("reset game");
+  window.location.href = "./";
+  // game.setAttribute("data-game", false);
+  // gameOverlay.setAttribute("data-game", false);
+  overButton.setAttribute("data-active", true);
+  if (e.code === "space") {
+    console.log("reset game");
+  }
+};
+
+// Windows storage API to store MAX score data
+
+/*
+ 1 > Type of data i wanna store >> maxScore: number 
+ Key: value
+*/
