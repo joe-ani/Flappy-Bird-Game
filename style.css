@@ -9,12 +9,14 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  user-select: none;
 }
 
 .game-container {
   background-image: url(images/background.png);
-  width: 300vmin;
-  height: 100vmin;
+  width: 100%;
+  height: 100vh;
+  z-index: -99;
   object-fit: contain;
   background-position: center;
   background-position-y: 0px;
@@ -24,7 +26,7 @@ body {
   --left: 0;
   bottom: 0px;
   z-index: 10;
-  width: 40%;
+  width: 90vmin;
   position: absolute;
   left: calc(var(--left) * -1%);
 }
@@ -54,7 +56,7 @@ body {
   margin-left: calc(var(--spacig) * 1px);
 }
 .pipeBottom {
- margin-top: calc(var(--pipe-bottom) * 1px);
+  margin-top: calc(var(--pipe-bottom) * 1px);
   /* position: absolute; */
 }
 
@@ -78,4 +80,107 @@ body {
   100% {
     transform: translateY(10px);
   }
+}
+
+.start-game,
+.game-over,
+.game-score,
+.score-details {
+  position: absolute;
+  z-index: 99;
+  text-align: center;
+  display: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+}
+
+.game-over[data-game="true"] {
+  display: block;
+}
+
+.game-over-text[data-game="true"] {
+  animation: pop 400ms;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.game-over-btn {
+  background: rgb(57, 99, 91);
+  display: inline;
+  padding: 10px;
+  border-radius: 5px;
+  color: #fff;
+}
+
+.game-over-btn:active {
+  background: rgb(28, 50, 46);
+}
+
+.game-over-btn[data-active="true"] {
+  animation: bg-active 100ms linear;
+}
+
+@keyframes bg-active {
+  0% {
+    background: rgb(57, 99, 91);
+  }
+  100% {
+    background: rgb(28, 50, 46);
+  }
+}
+
+.game-overlay {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.49);
+  backdrop-filter: blur(0.2em);
+  top: 0;
+  width: 100%;
+  display: none;
+  z-index: 99;
+  height: 100%;
+}
+
+.game-over-text {
+  color: #fff;
+  display: flex;
+  gap: 10px;
+}
+.game-over-text .red {
+  color: rgb(197, 23, 23);
+}
+
+.game-overlay[data-game="true"] {
+  display: block;
+}
+
+.game-score[data-game="true"] {
+  display: block;
+  top: 10%;
+  color: white;
+}
+
+.score-details[data-game="true"] {
+  top: 25%;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+}
+
+.score-details > .high-score {
+  font-weight: 900;
+  font-size: 25px;
 }
